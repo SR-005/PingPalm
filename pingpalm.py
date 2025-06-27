@@ -21,10 +21,12 @@ while True:
     success,img=feed.read()
     imgrgb=cv2.cvtColor(img,cv2.COLOR_BGR2RGB)  #Converting BGR color coded img to RGB as it is the one supported!
     results=hands.process(imgrgb)       #"process" is an inbuilt function that gives the necessart details automatically
-    '''print(results.multi_hand_landmarks)'''
+    leftpaddle_y=height//2
+    rightpaddle_y=height//2      #if no hand is detected
 
     if results.multi_hand_landmarks:
-        for handlandmarks in results.multi_hand_landmarks:
+        for handlandmarks,leftrighthand in zip(results.multi_hand_landmarks,results.multi_handedness):
+            handlabel=leftrighthand.classification[0].label #it labels left and right hands
             for id,landmarks in enumerate(handlandmarks.landmark): #getting id and landmarks of the hands in the feed [DATA]
                 '''print(id,landmarks)'''  #returns the position of landmarks in decimal values, we have to convert to pixel values
                 height,width,channel=img.shape   #collecting height,width and channel inorder to calculate position in pixels i,e x*width and y*height
