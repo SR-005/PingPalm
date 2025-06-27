@@ -44,6 +44,9 @@ while True:
 
             mpdraw.draw_landmarks(img,handlandmarks,mphands.HAND_CONNECTIONS) #in the "img" it will set landmarks for each hand in the feed and set connections
 
+    # Draw ball
+    cv2.circle(img, (ballx, bally), ballradius, (255, 255, 0), -1)
+
     # Draw paddles
     cv2.rectangle(img, (50, leftpaddle_y - paddleheight // 2),
                   (50 + paddlewidth, leftpaddle_y + paddleheight // 2), (0, 255, 0), -1)
@@ -69,7 +72,16 @@ while True:
     if width - 60 < ballx < width - 50 and rightpaddle_y - paddleheight//2 < bally < rightpaddle_y + paddleheight//2:
         ballvelocityx *= -1
 
+    # Ball reset if missed
+    if ballx <= 0 or ballx >= width:
+        ballx, bally = width // 2, height // 2
+        ballvelocityx *= -1
+
+
     img=cv2.flip(img,1)
     cv2.imshow("Video",img)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
+
+feed.release()
+cv2.destroyAllWindows()
