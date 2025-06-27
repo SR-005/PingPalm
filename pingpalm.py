@@ -37,9 +37,9 @@ while True:
                 pixelx,pixely=int(landmarks.x*width), int(landmarks.y*height)
 
                 if id==8:
-                    if leftrighthand=="left":
+                    if leftrighthand=="Left":
                         leftpaddle_y=pixely
-                    elif leftrighthand=="right":
+                    elif leftrighthand=="Right":
                         rightpaddle_y=pixely
 
             mpdraw.draw_landmarks(img,handlandmarks,mphands.HAND_CONNECTIONS) #in the "img" it will set landmarks for each hand in the feed and set connections
