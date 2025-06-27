@@ -8,7 +8,7 @@ feed.set(10,100) #id 10 is for BRIGHTNESS
 
 #Building the ball
 ballx,bally=320,240
-ballvelocityx,ballvelocityy=5,4
+ballvelocityx,ballvelocityy=12,9
 ballradius=10
 
 leftpaddle_y = 240
@@ -44,33 +44,42 @@ while True:
 
             mpdraw.draw_landmarks(img,handlandmarks,mphands.HAND_CONNECTIONS) #in the "img" it will set landmarks for each hand in the feed and set connections
 
-    # Draw ball
-    cv2.circle(img, (ballx, bally), ballradius, (255, 255, 0), -1)
+    # Ball - glowing yellow
+    cv2.circle(img, (ballx, bally), ballradius, (0, 255, 255), cv2.FILLED)
+    cv2.circle(img, (ballx, bally), ballradius + 5, (0, 255, 255), 2)  # Glow ring
 
-    # Draw paddles
-    cv2.rectangle(img, (50, leftpaddle_y - paddleheight // 2),
-                  (50 + paddlewidth, leftpaddle_y + paddleheight // 2), (0, 255, 0), -1)
+    # Left Paddle - neon green
+    cv2.rectangle(img, (50, leftpaddle_y - paddleheight//2),
+                (50 + paddlewidth, leftpaddle_y + paddleheight//2),
+                (0, 255, 0), -1)
 
-    cv2.rectangle(img, (width - 60, rightpaddle_y - paddleheight // 2),
-                  (width - 60 + paddlewidth, rightpaddle_y + paddleheight // 2), (255, 0, 0), -1)
+    # Right Paddle - neon blue
+    cv2.rectangle(img, (width - 60, rightpaddle_y - paddleheight//2),
+                (width - 60 + paddlewidth, rightpaddle_y + paddleheight//2),
+                (255, 0, 255), -1)
     
     #Ball Movement
     ballx=ballx+ballvelocityx
     bally=bally+ballvelocityy
 
-    #if it goes over the upper or lower boundary-stop the ball
-    if bally<=0 or bally>=height:
-        ballvelocityy=-1
+    # Ball hits top or bottom wall
+    if bally <= 0 or bally >= height:
+        ballvelocityy *= -1
 
     # Collision with paddles
     #If paddle center is at y = 200, and paddle_height = 100, you want:
     #Top edge at 200 - 50 = 150
     #Bottom edge at 200 + 50 = 250
     #So the paddle is from y = 150 to y = 250.
-    if 50 < ballx < 60 and leftpaddle_y - paddleheight//2 < bally < leftpaddle_y + paddleheight//2:
+    if 40 < ballx < 70 and leftpaddle_y - paddleheight//2 < bally < leftpaddle_y + paddleheight//2:
         ballvelocityx *= -1
-    if width - 60 < ballx < width - 50 and rightpaddle_y - paddleheight//2 < bally < rightpaddle_y + paddleheight//2:
+        # Curve effect: add variation to y velocity based on where ball hits paddle
+        offset = bally - leftpaddle_y
+        ballvelocityy = offset // 10  # tweak divisor for sensitivity
+    if width - 70 < ballx < width - 40 and rightpaddle_y - paddleheight//2 < bally < rightpaddle_y + paddleheight//2:
         ballvelocityx *= -1
+        offset = bally - rightpaddle_y
+        ballvelocityy = offset // 10
 
     # Ball reset if missed
     if ballx <= 0 or ballx >= width:
