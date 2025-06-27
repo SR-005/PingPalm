@@ -11,6 +11,11 @@ ballx,bally=320,240
 ballvelocityx,ballvelocityy=5,4
 ballradius=10
 
+leftpaddle_y = 240
+rightpaddle_y = 240
+paddlewidth = 10
+paddleheight = 100
+
 
 #DEFAULT FORMALITY!!!!
 mphands=mp.solutions.hands
@@ -28,16 +33,41 @@ while True:
         for handlandmarks,leftrighthand in zip(results.multi_hand_landmarks,results.multi_handedness):
             handlabel=leftrighthand.classification[0].label #it labels left and right hands
             for id,landmarks in enumerate(handlandmarks.landmark): #getting id and landmarks of the hands in the feed [DATA]
-                '''print(id,landmarks)'''  #returns the position of landmarks in decimal values, we have to convert to pixel values
                 height,width,channel=img.shape   #collecting height,width and channel inorder to calculate position in pixels i,e x*width and y*height
                 pixelx,pixely=int(landmarks.x*width), int(landmarks.y*height)
-                print(id,pixelx,pixely)
 
-                if id in [4,8] :     #drawing a purple circle with landmark 0
-                    cv2.circle(img, (pixelx,pixely), 15, (255, 0, 255), cv2.FILLED) #5 is the radius and (255,0,255) is code for color purple
-
+                if id==8:
+                    if leftrighthand=="left":
+                        leftpaddle_y=pixely
+                    elif leftrighthand=="right":
+                        rightpaddle_y=pixely
 
             mpdraw.draw_landmarks(img,handlandmarks,mphands.HAND_CONNECTIONS) #in the "img" it will set landmarks for each hand in the feed and set connections
+
+    # Draw paddles
+    cv2.rectangle(img, (50, leftpaddle_y - paddleheight // 2),
+                  (50 + paddlewidth, leftpaddle_y + paddleheight // 2), (0, 255, 0), -1)
+
+    cv2.rectangle(img, (width - 60, rightpaddle_y - paddleheight // 2),
+                  (width - 60 + paddlewidth, rightpaddle_y + paddleheight // 2), (255, 0, 0), -1)
+    
+    #Ball Movement
+    ballx=ballx+ballvelocityx
+    bally=bally+ballvelocityy
+
+    #if it goes over the upper or lower boundary-stop the ball
+    if bally<=0 or bally>=height:
+        ballvelocityy=-1
+
+    # Collision with paddles
+    #If paddle center is at y = 200, and paddle_height = 100, you want:
+    #Top edge at 200 - 50 = 150
+    #Bottom edge at 200 + 50 = 250
+    #So the paddle is from y = 150 to y = 250.
+    if 50 < ballx < 60 and leftpaddle_y - paddleheight//2 < bally < leftpaddle_y + paddleheight//2:
+        ballvelocityx *= -1
+    if width - 60 < ballx < width - 50 and rightpaddle_y - paddleheight//2 < bally < rightpaddle_y + paddleheight//2:
+        ballvelocityx *= -1
 
     img=cv2.flip(img,1)
     cv2.imshow("Video",img)
