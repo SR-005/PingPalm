@@ -6,6 +6,12 @@ feed.set(3,640) #setting up its width - id 3 refers to width
 feed.set(4,480) #setting up its height - id 4 refers to height
 feed.set(10,100) #id 10 is for BRIGHTNESS 
 
+#Building the ball
+ballx,bally=320,240
+ballvelocityx,ballvelocityy=5,4
+ballradius=10
+
+
 #DEFAULT FORMALITY!!!!
 mphands=mp.solutions.hands
 hands=mphands.Hands()               #it can contain multiple hands
