@@ -1,4 +1,5 @@
 import pygame
+import random
 
 pygame.init()
 height=600
@@ -10,12 +11,16 @@ pygame.display.set_caption("Ping Palm")
 background = pygame.image.load("PingPalm_bg.jpg")  
 background = pygame.transform.scale(background, (width, height))     #scaled the background image
 
-# Game Elements
+# Game Elements Initialization
 paddlewidth, paddleheight = 10, 100
 ballx, bally = 400, 300  # screen center
+ballvelocity_x = 7
+ballvelocity_y = 5
 left_paddle_y = 250
 right_paddle_y = 250
 ballradius = 10
+
+fps=pygame.time.Clock()
 
 gamerun=True
 while gamerun:
@@ -23,8 +28,13 @@ while gamerun:
         if event.type==pygame.QUIT:
             gamerun=False
 
+    fps.tick(90)   #we set game fps to 60
+
     #draw background
     screen.blit(background, (0, 0))  #to draw the bgimage on the screen at position (0,0)
+    #Basic Ball Movement
+    ballx += ballvelocity_x
+    bally += ballvelocity_y
 
     #draw paddles:
     pygame.draw.rect(screen,(255,255,255),(50,left_paddle_y,paddlewidth,paddleheight),border_radius=2)
@@ -38,6 +48,19 @@ while gamerun:
         ballcolor = (255, 255, 255)  # white
     pygame.draw.circle(screen, ballcolor, (ballx, bally), ballradius)
 
+    #Ball should Bounce off top and bottom
+    if bally - ballradius <= 0 or bally + ballradius >= 600:
+        ballvelocity_y *= -1
+    
 
+    # Collision with left paddle
+    if 50 < ballx - ballradius < 60 and left_paddle_y < bally < left_paddle_y + paddleheight:
+        ballvelocity_x *= -1
+        ballvelocity_y += random.choice([-1, 0, 1])
+
+    # Collision with right paddle
+    if 740 < ballx + ballradius < 750 and right_paddle_y < bally < right_paddle_y + paddleheight:
+        ballvelocity_x *= -1
+        ballvelocity_y += random.choice([-1, 0, 1])
 
     pygame.display.update()  #to update the frames every second
