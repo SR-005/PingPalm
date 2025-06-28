@@ -30,13 +30,23 @@ feed = cv2.VideoCapture(0, cv2.CAP_DSHOW) #if you have only one webcam- 0 reads 
 feed.set(3,640) #setting up its width - id 3 refers to width
 feed.set(4,480) #setting up its height - id 4 refers to height
 
+mphands=mp.solutions.hands
+hands=mphands.Hands()               #it can contain multiple hands
+mpdraw=mp.solutions.drawing_utils  #built in funtion to point hand landmarks for each hand(in this case)
+
 gamerun=True
 while gamerun:
     for event in pygame.event.get():
         if event.type==pygame.QUIT:
             gamerun=False
-
     fps.tick(90)   #we set game fps to 60
+
+    #Setting up MediaPipe
+    success,img=feed.read()
+    imgrgb=cv2.cvtColor(img,cv2.COLOR_BGR2RGB)  #Converting BGR color coded img to RGB as it is the one supported!
+    results=hands.process(imgrgb)       #"process" is an inbuilt function that gives the necessart details automatically
+
+
 
     #draw background
     screen.blit(background, (0, 0))  #to draw the bgimage on the screen at position (0,0)
