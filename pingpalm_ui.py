@@ -16,11 +16,17 @@ background = pygame.transform.scale(background, (width, height))     #scaled the
 # Game Elements Initialization
 paddlewidth, paddleheight = 10, 100
 ballx, bally = 400, 300  # screen center
-ballvelocity_x = 7
-ballvelocity_y = 5
+ballvelocity_x = 15
+ballvelocity_y = 12
 left_paddle_y = 250
 right_paddle_y = 250
 ballradius = 10
+
+#SCORE MARKING
+left_score = 0
+right_score = 0
+
+font = pygame.font.SysFont("Arial", 40, bold=True)
 
 #for catching fps
 fps=pygame.time.Clock()
@@ -39,15 +45,27 @@ while gamerun:
     for event in pygame.event.get():
         if event.type==pygame.QUIT:
             gamerun=False
-    fps.tick(90)   #we set game fps to 60
+    fps.tick(120)   #we set game fps to 60
 
     #Setting up MediaPipe
     success,img=feed.read()
+    img=cv2.flip(img,1)
     imgrgb=cv2.cvtColor(img,cv2.COLOR_BGR2RGB)  #Converting BGR color coded img to RGB as it is the one supported!
     results=hands.process(imgrgb)       #"process" is an inbuilt function that gives the necessart details automatically
+    height,width,_=img.shape  #calculate height and width
 
+    if results.multi_hand_landmarks:
+        for handlandmarks,leftrighthand in zip(results.multi_hand_landmarks,results.multi_handedness):
+            handlabel=leftrighthand.classification[0].label #it labels left and right hands
+            for id,landmarks in enumerate(handlandmarks.landmark): #getting id and landmarks of the hands in the feed [DATA]
+                pixelx,pixely=int(landmarks.x*width), int(landmarks.y*height)
 
-
+                if id==8:
+                    y = int(landmarks.y * 600)  # Map to game screen height
+                    if handlabel=="Left":
+                        left_paddle_y = y - paddleheight // 2
+                    elif handlabel=="Right":
+                        right_paddle_y = y - paddleheight // 2
     #draw background
     screen.blit(background, (0, 0))  #to draw the bgimage on the screen at position (0,0)
     #Basic Ball Movement
@@ -71,14 +89,35 @@ while gamerun:
         ballvelocity_y *= -1
     
 
-    # Collision with left paddle
-    if 50 < ballx - ballradius < 60 and left_paddle_y < bally < left_paddle_y + paddleheight:
+    # LEFT paddle collision
+    if 30 < ballx < 60 and left_paddle_y < bally < left_paddle_y + paddleheight:
         ballvelocity_x *= -1
-        ballvelocity_y += random.choice([-1, 0, 1])
+        hit_pos = bally - (left_paddle_y + paddleheight // 2)  # distance from center of paddle
+        ballvelocity_y = (hit_pos // 10) + random.choice([-1, 0, 1])  # adjust factor to control angle randomness
 
-    # Collision with right paddle
-    if 740 < ballx + ballradius < 750 and right_paddle_y < bally < right_paddle_y + paddleheight:
+    # RIGHT paddle collision
+    if 740 < ballx < 770 and right_paddle_y < bally < right_paddle_y + paddleheight:
         ballvelocity_x *= -1
-        ballvelocity_y += random.choice([-1, 0, 1])
+        hit_pos = bally - (right_paddle_y + paddleheight // 2)
+        ballvelocity_y = (hit_pos // 10) + random.choice([-1, 0, 1])
+
+    #SCORE LOGIC
+    # Ball crosses left side → Right player scores
+    if ballx < 0:
+        right_score += 1
+        ballx, bally = 400, 300
+        ballvelocity_x *= -1
+
+    # Ball crosses right side → Left player scores
+    if ballx > 800:
+        left_score += 1
+        ballx, bally = 400, 300
+        ballvelocity_x *= -1
+
+    left_score_text = font.render(f"{left_score}", True, (255, 255, 255))
+    right_score_text = font.render(f"{right_score}", True, (255, 255, 255))
+
+    screen.blit(left_score_text, (320, 20))   # Adjust position as needed
+    screen.blit(right_score_text, (450, 20))
 
     pygame.display.update()  #to update the frames every second
