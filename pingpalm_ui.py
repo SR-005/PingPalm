@@ -16,8 +16,10 @@ background = pygame.transform.scale(background, (width, height))     #scaled the
 # Game Elements Initialization
 paddlewidth, paddleheight = 10, 100
 ballx, bally = 400, 300  # screen center
-ballvelocity_x = 15
-ballvelocity_y = 12
+default_ballvelocity_x = 15
+default_ballvelocity_y = 12
+ballvelocity_x = default_ballvelocity_x
+ballvelocity_y = default_ballvelocity_y
 left_paddle_y = 250
 right_paddle_y = 250
 ballradius = 10
@@ -45,7 +47,7 @@ while gamerun:
     for event in pygame.event.get():
         if event.type==pygame.QUIT:
             gamerun=False
-    fps.tick(120)   #we set game fps to 60
+    fps.tick(60)   #we set game fps to 60
 
     #Setting up MediaPipe
     success,img=feed.read()
@@ -66,12 +68,12 @@ while gamerun:
                         left_paddle_y = y - paddleheight // 2
                     elif handlabel=="Right":
                         right_paddle_y = y - paddleheight // 2
-    #draw background
-    screen.blit(background, (0, 0))  #to draw the bgimage on the screen at position (0,0)
+
     #Basic Ball Movement
     ballx += ballvelocity_x
     bally += ballvelocity_y
 
+    
     #draw paddles:
     pygame.draw.rect(screen,(255,255,255),(50,left_paddle_y,paddlewidth,paddleheight),border_radius=2)
     pygame.draw.rect(screen,(0,0,0),(740,right_paddle_y,paddlewidth,paddleheight),border_radius=2)
@@ -82,7 +84,6 @@ while gamerun:
         ballcolor = (0, 0, 0)  # black
     else:  # left side
         ballcolor = (255, 255, 255)  # white
-    pygame.draw.circle(screen, ballcolor, (ballx, bally), ballradius)
 
     #Ball should Bounce off top and bottom
     if bally - ballradius <= 0 or bally + ballradius >= 600:
@@ -91,33 +92,50 @@ while gamerun:
 
     # LEFT paddle collision
     if 30 < ballx < 60 and left_paddle_y < bally < left_paddle_y + paddleheight:
-        ballvelocity_x *= -1
-        hit_pos = bally - (left_paddle_y + paddleheight // 2)  # distance from center of paddle
-        ballvelocity_y = (hit_pos // 10) + random.choice([-1, 0, 1])  # adjust factor to control angle randomness
+        ballvelocity_x = int(ballvelocity_x * -1.1)
+        hit_pos = bally - (left_paddle_y + paddleheight // 2)
+        ballvelocity_y = int((hit_pos // 10 + random.choice([-1, 0, 1])) * 1.1)
+        max_speed = 30
+        ballvelocity_x = max(-max_speed, min(max_speed, ballvelocity_x))
+        ballvelocity_y = max(-max_speed, min(max_speed, ballvelocity_y))
 
     # RIGHT paddle collision
     if 740 < ballx < 770 and right_paddle_y < bally < right_paddle_y + paddleheight:
-        ballvelocity_x *= -1
+        ballvelocity_x = int(ballvelocity_x * -1.1)
         hit_pos = bally - (right_paddle_y + paddleheight // 2)
-        ballvelocity_y = (hit_pos // 10) + random.choice([-1, 0, 1])
+        ballvelocity_y = int((hit_pos // 10 + random.choice([-1, 0, 1])) * 1.1)
+        max_speed = 30
+        ballvelocity_x = max(-max_speed, min(max_speed, ballvelocity_x))
+        ballvelocity_y = max(-max_speed, min(max_speed, ballvelocity_y))
 
-    #SCORE LOGIC
-    # Ball crosses left side → Right player scores
+    # SCORE LOGIC
     if ballx < 0:
         right_score += 1
         ballx, bally = 400, 300
-        ballvelocity_x *= -1
+        ballvelocity_x = -default_ballvelocity_x
+        ballvelocity_y = default_ballvelocity_y
 
-    # Ball crosses right side → Left player scores
     if ballx > 800:
         left_score += 1
         ballx, bally = 400, 300
-        ballvelocity_x *= -1
+        ballvelocity_x = default_ballvelocity_x
+        ballvelocity_y = default_ballvelocity_y
 
+    # DRAW BACKGROUND FIRST
+    screen.blit(background, (0, 0))
+
+    # DRAW PADDLES
+    pygame.draw.rect(screen, (255, 255, 255), (50, left_paddle_y, paddlewidth, paddleheight), border_radius=2)
+    pygame.draw.rect(screen, (0, 0, 0), (740, right_paddle_y, paddlewidth, paddleheight), border_radius=2)
+
+    # DRAW BALL
+    pygame.draw.circle(screen, ballcolor, (int(ballx), int(bally)), ballradius)
+
+    # DRAW SCORE
     left_score_text = font.render(f"{left_score}", True, (255, 255, 255))
-    right_score_text = font.render(f"{right_score}", True, (255, 255, 255))
-
-    screen.blit(left_score_text, (320, 20))   # Adjust position as needed
+    right_score_text = font.render(f"{right_score}", True, (0, 0, 0))
+    screen.blit(left_score_text, (320, 20))
     screen.blit(right_score_text, (450, 20))
 
-    pygame.display.update()  #to update the frames every second
+    # UPDATE SCREEN
+    pygame.display.update()
