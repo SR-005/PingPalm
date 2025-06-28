@@ -2,6 +2,7 @@ import pygame
 
 pygame.init()
 screen=pygame.display.set_mode((800,600)) #create the screen
+pygame.display.set_caption("Ping Palm")
 
 gamerun=True
 while gamerun:
