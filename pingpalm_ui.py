@@ -1,5 +1,7 @@
 import pygame
 import random
+import cv2
+import mediapipe as mp
 
 pygame.init()
 height=600
@@ -20,7 +22,13 @@ left_paddle_y = 250
 right_paddle_y = 250
 ballradius = 10
 
+#for catching fps
 fps=pygame.time.Clock()
+
+#OPENCV SETUP
+feed = cv2.VideoCapture(0, cv2.CAP_DSHOW) #if you have only one webcam- 0 reads feed fom that one
+feed.set(3,640) #setting up its width - id 3 refers to width
+feed.set(4,480) #setting up its height - id 4 refers to height
 
 gamerun=True
 while gamerun:
