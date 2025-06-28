@@ -26,10 +26,12 @@ while gamerun:
     #draw background
     screen.blit(background, (0, 0))  #to draw the bgimage on the screen at position (0,0)
 
-    #draw elements:
-    pygame.draw.rect(screen,(255,255,255),(50,left_paddle_y,paddlewidth,paddleheight),border_radius=10)
-    pygame.draw.rect(screen,(0,0,0),(740,right_paddle_y,paddlewidth,paddleheight),border_radius=10)
+    #draw paddles:
+    pygame.draw.rect(screen,(255,255,255),(50,left_paddle_y,paddlewidth,paddleheight),border_radius=2)
+    pygame.draw.rect(screen,(0,0,0),(740,right_paddle_y,paddlewidth,paddleheight),border_radius=2)
 
+    #draw ball:
+    pygame.draw.circle(screen, (255, 255, 0), (ballx, bally), ballradius)
 
 
 
