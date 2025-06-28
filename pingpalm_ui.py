@@ -31,7 +31,12 @@ while gamerun:
     pygame.draw.rect(screen,(0,0,0),(740,right_paddle_y,paddlewidth,paddleheight),border_radius=2)
 
     #draw ball:
-    pygame.draw.circle(screen, (255, 255, 0), (ballx, bally), ballradius)
+    # Change ball color based on position
+    if ballx > 400:  # right side
+        ballcolor = (0, 0, 0)  # black
+    else:  # left side
+        ballcolor = (255, 255, 255)  # white
+    pygame.draw.circle(screen, ballcolor, (ballx, bally), ballradius)
 
 
 
