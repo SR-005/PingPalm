@@ -5,6 +5,8 @@ import mediapipe as mp
 import sys
 import os
 
+basedir = getattr(sys, '_MEIPASS', os.path.abspath(".")) #for loading font purpose, to load it from current folder
+
 pygame.init()
 height=600
 width=800
@@ -90,10 +92,11 @@ while gamerun:
                         left_paddle_y = y - paddleheight // 2
                     elif handlabel=="Right":
                         right_paddle_y = y - paddleheight // 2
+            mpdraw.draw_landmarks(img,handlandmarks,mphands.HAND_CONNECTIONS)
 
-    cam_frame = cv2.resize(img, (160, 120))  # Resize to a small window
-    cam_frame = cv2.cvtColor(cam_frame, cv2.COLOR_BGR2RGB)  # Convert BGR to RGB
-    cam_surface = pygame.surfarray.make_surface(cam_frame.swapaxes(0, 1))  # Convert to Pygame surface
+    img=cv2.resize(img, (160, 120))  # Resize to a small window
+    img=cv2.cvtColor(img, cv2.COLOR_BGR2RGB)  # Convert BGR to RGB
+    img=pygame.surfarray.make_surface(img.swapaxes(0, 1))  # Convert to Pygame surface
 
     #Basic Ball Movement
     ballx += ballvelocity_x
@@ -157,9 +160,9 @@ while gamerun:
         
         # Display background and Game Over text
         screen.blit(background, (0, 0))
-        gameoverfont = pygame.font.Font("Pixelmania.ttf", 60)
-        winnerfont = pygame.font.Font("Minercraftory.ttf", 40)
-        font_small = pygame.font.Font("Minercraftory.ttf", 32)
+        gameoverfont = pygame.font.Font(os.path.join(basedir, "Pixelmania.ttf"), 60)
+        winnerfont = pygame.font.Font(os.path.join(basedir, "Minercraftory.ttf"), 40)
+        font_small = pygame.font.Font(os.path.join(basedir, "Minercraftory.ttf"), 32)
 
         game_over_text = gameoverfont.render("GAME OVER", True, (255, 0, 0))
         winner_text = winnerfont.render(f"{winner} WON!!!", True, (10, 174, 37))
@@ -193,7 +196,7 @@ while gamerun:
     # DRAW BACKGROUND FIRST
     screen.blit(background, (0, 0))
     #CAMERA FEED DISPLAY
-    screen.blit(cam_surface, (300,500))  # Margin of 10 pixels
+    screen.blit(img, (300,500))  # Margin of 10 pixels
 
     # DRAW PADDLES
     pygame.draw.rect(screen, (255, 255, 255), (50, left_paddle_y, paddlewidth, paddleheight), border_radius=2)
