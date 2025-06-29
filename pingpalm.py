@@ -2,6 +2,8 @@ import pygame
 import random
 import cv2
 import mediapipe as mp
+import sys
+import os
 
 pygame.init()
 height=600
@@ -9,9 +11,10 @@ width=800
 screen=pygame.display.set_mode((width,height)) #create the screen
 pygame.display.set_caption("Ping Palm")
 
-#BACKGROUND IMAGE:
-background = pygame.image.load("PingPalm_bg.jpg")  
-background = pygame.transform.scale(background, (width, height))     #scaled the background image
+# Load background image with PyInstaller support
+basedir = getattr(sys, '_MEIPASS', os.path.abspath("."))
+background = pygame.image.load(os.path.join(basedir, "PingPalm_bg.jpg"))  
+background = pygame.transform.scale(background, (width, height))  # scaled background
 
 # Game Elements Initialization
 paddlewidth, paddleheight = 10, 100
