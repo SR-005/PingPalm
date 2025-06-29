@@ -155,7 +155,7 @@ while gamerun:
         font_small = pygame.font.SysFont("Arial", 30, bold=True)
 
         game_over_text = font_big.render("GAME OVER", True, (255, 0, 0))
-        winner_text = font_small.render(f"{winner} WON!", True, (255, 255, 255))
+        winner_text = font_small.render(f"{winner} WON!!!!", True, (10, 174, 37))
         restart_text = font_small.render("Press R to Restart or Q to Quit", True, (30, 108, 243))
 
         screen.blit(game_over_text, game_over_text.get_rect(center=(400, 260)))
