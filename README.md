@@ -70,7 +70,7 @@ pingpalm/
 
 ### 3. Run the Game
 
-*[DOWNLOAD](https://drive.google.com/file/d/1GyBvsdgNBtoMZ_nXj8_VMn_BIg_MJteC/view?usp=sharing) the .RAR file
+*[Download](https://drive.google.com/file/d/1GyBvsdgNBtoMZ_nXj8_VMn_BIg_MJteC/view?usp=sharing) the .RAR file, extract it and run the .exe file
 
 
 ---
