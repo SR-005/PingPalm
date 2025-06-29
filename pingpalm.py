@@ -145,6 +145,43 @@ while gamerun:
         ballvelocity_y = default_ballvelocity_y
         countdown_screen(screen, background) 
 
+    # GAME OVER CHECK
+    if left_score == 3 or right_score == 3:
+        winner = "Player 1" if left_score == 10 else "Player 2"
+        
+        # Display background and Game Over text
+        screen.blit(background, (0, 0))
+        font_big = pygame.font.SysFont("Arial", 60, bold=True)
+        font_small = pygame.font.SysFont("Arial", 30, bold=True)
+
+        game_over_text = font_big.render("GAME OVER", True, (255, 0, 0))
+        winner_text = font_small.render(f"{winner} WON!", True, (255, 255, 255))
+        restart_text = font_small.render("Press R to Restart or Q to Quit", True, (30, 108, 243))
+
+        screen.blit(game_over_text, game_over_text.get_rect(center=(width//2, height//2 - 60)))
+        screen.blit(winner_text, winner_text.get_rect(center=(width//2, height//2)))
+        screen.blit(restart_text, restart_text.get_rect(center=(width//2, height//2 + 50)))
+        pygame.display.update()
+
+        # Pause game loop and wait for key press
+        paused = True
+        while paused:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    paused = False
+                    gamerun = False
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_r:
+                        left_score = 0
+                        right_score = 0
+                        ballx, bally = 400, 300
+                        ballvelocity_x = default_ballvelocity_x
+                        ballvelocity_y = default_ballvelocity_y
+                        paused = False
+                    elif event.key == pygame.K_q:
+                        paused = False
+                        gamerun = False
+
     # DRAW BACKGROUND FIRST
     screen.blit(background, (0, 0))
 
