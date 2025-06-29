@@ -30,6 +30,19 @@ right_score = 0
 
 font = pygame.font.SysFont("Arial", 40, bold=True)
 
+
+def countdown_screen(screen, background):
+    large_font = pygame.font.SysFont("Arial", 100, bold=True)  # Bigger font
+    for count in ["3", "2", "1", "GO!"]:
+        screen.blit(background, (0, 0))
+        color = (0, 255, 0) if count == "GO!" else (255, 0, 0)
+        text = large_font.render(count, True, color)
+        text_rect = text.get_rect(center=(width // 2, height // 2))
+        screen.blit(text, text_rect)
+        pygame.display.update()
+        pygame.time.delay(900)  # 900ms delay
+
+
 #for catching fps
 fps=pygame.time.Clock()
 
@@ -114,12 +127,14 @@ while gamerun:
         ballx, bally = 400, 300
         ballvelocity_x = -default_ballvelocity_x
         ballvelocity_y = default_ballvelocity_y
+        countdown_screen(screen, background)  
 
     if ballx > 800:
         left_score += 1
         ballx, bally = 400, 300
         ballvelocity_x = default_ballvelocity_x
         ballvelocity_y = default_ballvelocity_y
+        countdown_screen(screen, background) 
 
     # DRAW BACKGROUND FIRST
     screen.blit(background, (0, 0))
