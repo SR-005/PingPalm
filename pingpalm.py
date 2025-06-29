@@ -91,6 +91,10 @@ while gamerun:
                     elif handlabel=="Right":
                         right_paddle_y = y - paddleheight // 2
 
+    cam_frame = cv2.resize(img, (160, 120))  # Resize to a small window
+    cam_frame = cv2.cvtColor(cam_frame, cv2.COLOR_BGR2RGB)  # Convert BGR to RGB
+    cam_surface = pygame.surfarray.make_surface(cam_frame.swapaxes(0, 1))  # Convert to Pygame surface
+
     #Basic Ball Movement
     ballx += ballvelocity_x
     bally += ballvelocity_y
@@ -136,7 +140,7 @@ while gamerun:
         ballx, bally = 400, 300
         ballvelocity_x = -default_ballvelocity_x
         ballvelocity_y = default_ballvelocity_y
-        if right_score<1:
+        if right_score<10:
             countdown_screen(screen, background)  
 
     if ballx > 800:
@@ -144,11 +148,11 @@ while gamerun:
         ballx, bally = 400, 300
         ballvelocity_x = default_ballvelocity_x
         ballvelocity_y = default_ballvelocity_y
-        if left_score<1:
+        if left_score<10:
             countdown_screen(screen, background) 
 
     # GAME OVER CHECK
-    if left_score==1 or right_score==1:
+    if left_score==10 or right_score==10:
         winner = "PLAYER 1" if left_score == 10 else "PLAYER 2"
         
         # Display background and Game Over text
@@ -181,12 +185,15 @@ while gamerun:
                         ballvelocity_x = default_ballvelocity_x
                         ballvelocity_y = default_ballvelocity_y
                         paused = False
+                        countdown_screen(screen, background) 
                     elif event.key == pygame.K_q:
                         paused = False
                         gamerun = False
 
     # DRAW BACKGROUND FIRST
     screen.blit(background, (0, 0))
+    #CAMERA FEED DISPLAY
+    screen.blit(cam_surface, (300,500))  # Margin of 10 pixels
 
     # DRAW PADDLES
     pygame.draw.rect(screen, (255, 255, 255), (50, left_paddle_y, paddlewidth, paddleheight), border_radius=2)
