@@ -1,1 +1,1 @@
-pyinstaller --onefile --windowed --add-data "PingPalm_bg.jpg;." --add-data "C:\Users\sreer\OneDrive\Documents\Git-Projects\pingpalm\env\Lib\site-packages\mediapipe\modules;mediapipe\modules" pingpalm.py
+pyinstaller --onefile --windowed --add-data "PingPalm_bg.jpg;." --add-data "Minercraftory.ttf;." --add-data "Pixelmania.ttf;." --add-data "C:\Users\sreer\OneDrive\Documents\Git-Projects\pingpalm\env\Lib\site-packages\mediapipe\modules;mediapipe\modules" pingpalm.py
