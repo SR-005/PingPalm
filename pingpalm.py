@@ -158,9 +158,9 @@ while gamerun:
         winner_text = font_small.render(f"{winner} WON!", True, (255, 255, 255))
         restart_text = font_small.render("Press R to Restart or Q to Quit", True, (30, 108, 243))
 
-        screen.blit(game_over_text, game_over_text.get_rect(center=(width//2, height//2 - 60)))
-        screen.blit(winner_text, winner_text.get_rect(center=(width//2, height//2)))
-        screen.blit(restart_text, restart_text.get_rect(center=(width//2, height//2 + 50)))
+        screen.blit(game_over_text, game_over_text.get_rect(center=(400, 260)))
+        screen.blit(winner_text, winner_text.get_rect(center=(400, 300)))
+        screen.blit(restart_text, restart_text.get_rect(center=(400, 340)))
         pygame.display.update()
 
         # Pause game loop and wait for key press
