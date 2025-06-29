@@ -30,8 +30,10 @@
 ---
 
 ## 🖼️ Screenshots
+![Screenshot 2025-06-30 000853](https://github.com/user-attachments/assets/0448bf3b-eedd-412d-8497-ff9d22f3303d)
+![Screenshot 2025-06-30 001232](https://github.com/user-attachments/assets/773a13e9-b0c5-4f7c-965c-7ce1f724bf5e)
+![Screenshot 2025-06-30 001242](https://github.com/user-attachments/assets/03585630-0959-412a-85c1-747f287492cd)
 
-*(Add your screenshots here)*
 
 ---
 
