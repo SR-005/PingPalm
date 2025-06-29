@@ -113,7 +113,7 @@ while gamerun:
     
 
     # LEFT paddle collision
-    if 30 < ballx < 60 and left_paddle_y < bally < left_paddle_y + paddleheight:
+    if 30 < ballx < 90 and left_paddle_y < bally < left_paddle_y + paddleheight:
         ballvelocity_x = int(ballvelocity_x * -1.1)
         hit_pos = bally - (left_paddle_y + paddleheight // 2)
         ballvelocity_y = int((hit_pos // 10 + random.choice([-1, 0, 1])) * 1.1)
@@ -122,7 +122,7 @@ while gamerun:
         ballvelocity_y = max(-max_speed, min(max_speed, ballvelocity_y))
 
     # RIGHT paddle collision
-    if 740 < ballx < 770 and right_paddle_y < bally < right_paddle_y + paddleheight:
+    if 720 < ballx < 770 and right_paddle_y < bally < right_paddle_y + paddleheight:
         ballvelocity_x = int(ballvelocity_x * -1.1)
         hit_pos = bally - (right_paddle_y + paddleheight // 2)
         ballvelocity_y = int((hit_pos // 10 + random.choice([-1, 0, 1])) * 1.1)
