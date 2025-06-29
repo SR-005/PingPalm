@@ -37,7 +37,7 @@ def countdown_screen(screen, background):
         screen.blit(background, (0, 0))
         color = (0, 255, 0) if count == "GO!" else (255, 0, 0)
         text = large_font.render(count, True, color)
-        text_rect = text.get_rect(center=(width // 2, height // 2))
+        text_rect = text.get_rect(center=(400, 300))
         screen.blit(text, text_rect)
         pygame.display.update()
         pygame.time.delay(900)  # 900ms delay
@@ -56,11 +56,17 @@ hands=mphands.Hands()               #it can contain multiple hands
 mpdraw=mp.solutions.drawing_utils  #built in funtion to point hand landmarks for each hand(in this case)
 
 gamerun=True
+startingcount=0
+
 while gamerun:
     for event in pygame.event.get():
         if event.type==pygame.QUIT:
             gamerun=False
     fps.tick(60)   #we set game fps to 60
+
+    if startingcount==0:
+        countdown_screen(screen, background)
+    startingcount=startingcount+1
 
     #Setting up MediaPipe
     success,img=feed.read()
