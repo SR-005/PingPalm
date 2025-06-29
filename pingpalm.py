@@ -136,32 +136,34 @@ while gamerun:
         ballx, bally = 400, 300
         ballvelocity_x = -default_ballvelocity_x
         ballvelocity_y = default_ballvelocity_y
-        countdown_screen(screen, background)  
+        if right_score<1:
+            countdown_screen(screen, background)  
 
     if ballx > 800:
         left_score += 1
         ballx, bally = 400, 300
         ballvelocity_x = default_ballvelocity_x
         ballvelocity_y = default_ballvelocity_y
-        countdown_screen(screen, background) 
+        if left_score<1:
+            countdown_screen(screen, background) 
 
     # GAME OVER CHECK
-    if left_score == 2 or right_score == 2:
+    if left_score==1 or right_score==1:
         winner = "PLAYER 1" if left_score == 10 else "PLAYER 2"
         
         # Display background and Game Over text
         screen.blit(background, (0, 0))
         gameoverfont = pygame.font.Font("Pixelmania.ttf", 60)
-        winnerfont = pygame.font.Font("Pixelmania.ttf", 28)
-        font_small = pygame.font.SysFont("Arial", 30, bold=True)
+        winnerfont = pygame.font.Font("Minercraftory.ttf", 40)
+        font_small = pygame.font.Font("Minercraftory.ttf", 32)
 
         game_over_text = gameoverfont.render("GAME OVER", True, (255, 0, 0))
-        winner_text = winnerfont.render(f"{winner} WON", True, (10, 174, 37))
-        restart_text = font_small.render("Press R to Restart or Q to Quit", True, (30, 108, 243))
+        winner_text = winnerfont.render(f"{winner} WON!!!", True, (10, 174, 37))
+        restart_text = font_small.render("Quit(Q)     Restart(R)", True, (30, 108, 243))
 
-        screen.blit(game_over_text, game_over_text.get_rect(center=(400, 260)))
-        screen.blit(winner_text, winner_text.get_rect(center=(400, 340)))
-        screen.blit(restart_text, restart_text.get_rect(center=(400, 380)))
+        screen.blit(game_over_text, game_over_text.get_rect(center=(400, 300)))
+        screen.blit(winner_text, winner_text.get_rect(center=(400, 230)))
+        screen.blit(restart_text, restart_text.get_rect(center=(430,400)))
         pygame.display.update()
 
         # Pause game loop and wait for key press
@@ -194,11 +196,10 @@ while gamerun:
     pygame.draw.circle(screen, ballcolor, (int(ballx), int(bally)), ballradius)
 
     # DRAW SCORE
-    if left_score<2 and right_score<2:
-        left_score_text = font.render(f"{left_score}", True, (255, 255, 255))
-        right_score_text = font.render(f"{right_score}", True, (0, 0, 0))
-        screen.blit(left_score_text, (320, 20))
-        screen.blit(right_score_text, (450, 20))
+    left_score_text = font.render(f"{left_score}", True, (255, 255, 255))
+    right_score_text = font.render(f"{right_score}", True, (0, 0, 0))
+    screen.blit(left_score_text, (320, 20))
+    screen.blit(right_score_text, (450, 20))
 
     # UPDATE SCREEN
     pygame.display.update()
