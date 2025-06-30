@@ -21,11 +21,6 @@
 
 ---
 
-Let me know if you’d like to add a **single-player mode**, **AI opponent**, or **difficulty levels** section too!
-
-
----
-
 ## 🛠 Built With
 
 * **Computer Vision:** OpenCV
