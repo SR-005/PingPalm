@@ -29,6 +29,17 @@ left_paddle_y = 250
 right_paddle_y = 250
 ballradius = 10
 
+#Object Parameters
+block_width = 20
+block_height = 150
+block_color = (150, 150, 150)
+block1_x = width // 2 - 60
+block2_x = width // 2 + 40
+block_y = -block_height  # Start off-screen
+
+block_speed = 5
+block_active = False
+
 #SCORE MARKING
 left_score = 0
 right_score = 0
@@ -127,6 +138,8 @@ while gamerun:
         max_speed = 30
         ballvelocity_x = max(-max_speed, min(max_speed, ballvelocity_x))
         ballvelocity_y = max(-max_speed, min(max_speed, ballvelocity_y))
+        if abs(ballvelocity_x) > 20 or abs(ballvelocity_y) > 20:
+            block_active = True
 
     # RIGHT paddle collision
     if 720 < ballx < 770 and right_paddle_y < bally < right_paddle_y + paddleheight:
@@ -136,6 +149,8 @@ while gamerun:
         max_speed = 30
         ballvelocity_x = max(-max_speed, min(max_speed, ballvelocity_x))
         ballvelocity_y = max(-max_speed, min(max_speed, ballvelocity_y))
+        if abs(ballvelocity_x) > 20 or abs(ballvelocity_y) > 20:
+            block_active = True
 
     # SCORE LOGIC
     if ballx < 0:
