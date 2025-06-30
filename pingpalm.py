@@ -29,13 +29,13 @@ left_paddle_y = 250
 right_paddle_y = 250
 ballradius = 10
 
-#Object Parameters
+# BLOCKS - Static Obstacles
 block_width = 20
-block_height = 150
-block_color = (150, 150, 150)
-block1_x = width // 2 - 60
-block2_x = width // 2 + 40
-block_y = -block_height  # Start off-screen
+block_height = 120
+block1_x = width // 2 - 40
+block2_x = width // 2 + 20
+block_y = height // 2 - block_height // 2
+block_active=None # You can activate this when speed reaches a threshold
 
 block_speed = 5
 block_active = False
@@ -84,6 +84,9 @@ while gamerun:
         countdown_screen(screen, background)
     startingcount=startingcount+1
 
+    # DRAW BACKGROUND FIRST
+    screen.blit(background, (0, 0))
+
     #Setting up MediaPipe
     success,img=feed.read()
     img=cv2.flip(img,1)
@@ -113,6 +116,10 @@ while gamerun:
     ballx += ballvelocity_x
     bally += ballvelocity_y
 
+    if abs(ballvelocity_x) > 20 or abs(ballvelocity_y) > 20:
+            block_active = True
+    else:
+            block_active=False
     
     #draw paddles:
     pygame.draw.rect(screen,(255,255,255),(50,left_paddle_y,paddlewidth,paddleheight),border_radius=2)
@@ -138,8 +145,7 @@ while gamerun:
         max_speed = 30
         ballvelocity_x = max(-max_speed, min(max_speed, ballvelocity_x))
         ballvelocity_y = max(-max_speed, min(max_speed, ballvelocity_y))
-        if abs(ballvelocity_x) > 20 or abs(ballvelocity_y) > 20:
-            block_active = True
+
 
     # RIGHT paddle collision
     if 720 < ballx < 770 and right_paddle_y < bally < right_paddle_y + paddleheight:
@@ -149,19 +155,25 @@ while gamerun:
         max_speed = 30
         ballvelocity_x = max(-max_speed, min(max_speed, ballvelocity_x))
         ballvelocity_y = max(-max_speed, min(max_speed, ballvelocity_y))
-        if abs(ballvelocity_x) > 20 or abs(ballvelocity_y) > 20:
-            block_active = True
 
     #Build the obstacle if the BlockActive gets Triggered
     if block_active:
-        block1_rect = pygame.Rect(block1_x, block_y, block_width, block_height)
-        block2_rect = pygame.Rect(block2_x, block_y, block_width, block_height)
-        pygame.draw.rect(screen, block_color, block1_rect)
-        pygame.draw.rect(screen, block_color, block2_rect)
+        pygame.draw.rect(screen, (255, 65, 65), (block1_x, block_y, block_width, block_height))
+        pygame.draw.rect(screen, (255, 65, 65), (block2_x, block_y, block_width, block_height))
 
     #Trigger Obstacle Movement
     if block_active and block_y < 200:
         block_y += block_speed
+
+    #Obstacle Hit Logic
+    if block_active:
+        if (block1_x < ballx + ballradius < block1_x + block_width and
+            block_y < bally < block_y + block_height) or \
+        (block2_x < ballx - ballradius < block2_x + block_width and
+            block_y < bally < block_y + block_height):
+
+            ballvelocity_x *= -1
+            ballvelocity_y += random.choice([-2, -1, 0, 1, 2])
 
     # SCORE LOGIC
     if ballx < 0:
@@ -219,8 +231,7 @@ while gamerun:
                         paused = False
                         gamerun = False
 
-    # DRAW BACKGROUND FIRST
-    screen.blit(background, (0, 0))
+
     #CAMERA FEED DISPLAY
     screen.blit(img, (300,500))  # Margin of 10 pixels
 
