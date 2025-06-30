@@ -9,7 +9,8 @@
 2. Allow camera access when prompted
 3. Use your left and right hand (via webcam) to control the paddles!
 4. Hit the Ball Beyond Opponents Paddle to Score!!
-5. First Person to Reach 10 Points WINS
+5. First Person to Reach 8 Points WINS
+6. Brace Yourself for Faster pace and Obstacles as you try to get a score
 
 *IMPORTANT*
 --KEEP YOUR HANDS WITHIN RANGE OF CAMERA - YOU ARE GIVEN A REFERENCE FEED AT THE BOTTOM, KEEP AN EYE ON THAT
