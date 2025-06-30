@@ -30,15 +30,17 @@ right_paddle_y = 250
 ballradius = 10
 
 # BLOCKS - Static Obstacles
-block_width = 20
-block_height = 120
-block1_x = width // 2 - 40
-block2_x = width // 2 + 20
-block_y = height // 2 - block_height // 2
+block_width = 10
+block_height = 100
+block_gap = 150
+block_x = width // 2 - block_width // 2  # center horizontally
+block1_y = -(block_height*4)  # Start above the screen
+block2_y = -block_height  # Start below the screen
 block_active=None # You can activate this when speed reaches a threshold
 
 block_speed = 5
 block_active = False
+triggerspeed=False
 
 #SCORE MARKING
 left_score = 0
@@ -116,10 +118,12 @@ while gamerun:
     ballx += ballvelocity_x
     bally += ballvelocity_y
 
-    if abs(ballvelocity_x) > 20 or abs(ballvelocity_y) > 20:
+    if abs(ballvelocity_x) > 25 or abs(ballvelocity_y) > 25:
             block_active = True
     else:
             block_active=False
+            block1_y = -(block_height*4)  #Reset Position to OFF Screen
+            block2_y = -block_height  #Reset Position to OFF Screen
     
     #draw paddles:
     pygame.draw.rect(screen,(255,255,255),(50,left_paddle_y,paddlewidth,paddleheight),border_radius=2)
@@ -158,22 +162,31 @@ while gamerun:
 
     #Build the obstacle if the BlockActive gets Triggered
     if block_active:
-        pygame.draw.rect(screen, (255, 65, 65), (block1_x, block_y, block_width, block_height))
-        pygame.draw.rect(screen, (255, 65, 65), (block2_x, block_y, block_width, block_height))
+        pygame.draw.rect(screen, (200, 0, 0), (block_x, block1_y, block_width, block_height))
+        pygame.draw.rect(screen, (0, 0, 200), (block_x, block2_y, block_width, block_height))
 
     #Trigger Obstacle Movement
-    if block_active and block_y < 200:
-        block_y += block_speed
-
-    #Obstacle Hit Logic
     if block_active:
-        if (block1_x < ballx + ballradius < block1_x + block_width and
-            block_y < bally < block_y + block_height) or \
-        (block2_x < ballx - ballradius < block2_x + block_width and
-            block_y < bally < block_y + block_height):
+        if block1_y + block_speed < 130:
+            block1_y += block_speed
+        else:
+            block1_y = 130  # Snap to exact target
 
+        if block2_y + block_speed < 400:
+            block2_y += block_speed
+        else:
+            block2_y = 400  # Snap to exact target
+
+    if block_active:
+        ball_rect = pygame.Rect(ballx - ballradius, bally - ballradius, ballradius * 2, ballradius * 2)
+        block1_rect = pygame.Rect(block_x, block1_y, block_width, block_height)
+        block2_rect = pygame.Rect(block_x, block2_y, block_width, block_height)
+
+        # Check for collisions with either block
+        if ball_rect.colliderect(block1_rect) or ball_rect.colliderect(block2_rect):
+            # Reverse both X and Y to ensure the ball bounces off reliably
             ballvelocity_x *= -1
-            ballvelocity_y += random.choice([-2, -1, 0, 1, 2])
+            ballvelocity_y *= -1
 
     # SCORE LOGIC
     if ballx < 0:
