@@ -203,7 +203,7 @@ while gamerun:
         ballx, bally = 400, 300
         ballvelocity_x = -default_ballvelocity_x
         ballvelocity_y = default_ballvelocity_y
-        if right_score<10:
+        if right_score<8:
             countdown_screen(screen, background)  
 
     if ballx > 800:
@@ -211,12 +211,12 @@ while gamerun:
         ballx, bally = 400, 300
         ballvelocity_x = default_ballvelocity_x
         ballvelocity_y = default_ballvelocity_y
-        if left_score<10:
+        if left_score<8:
             countdown_screen(screen, background) 
 
     # GAME OVER CHECK
-    if left_score==10 or right_score==10:
-        winner = "PLAYER 1" if left_score == 10 else "PLAYER 2"
+    if left_score==8 or right_score==8:
+        winner = "PLAYER 1" if left_score == 8 else "PLAYER 2"
         
         # Display background and Game Over text
         screen.blit(background, (0, 0))
