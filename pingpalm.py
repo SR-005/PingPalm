@@ -188,8 +188,8 @@ while gamerun:
 
     if block_active:
         ball_rect = pygame.Rect(ballx - ballradius, bally - ballradius, ballradius * 2, ballradius * 2)
-        block1_rect = pygame.Rect(block_x, block1_y, block_width, block_height)
-        block2_rect = pygame.Rect(block_x, block2_y, block_width, block_height)
+        block1_rect = pygame.Rect(block_x-10, block1_y, block_width+20, block_height)
+        block2_rect = pygame.Rect(block_x-10, block2_y, block_width+20, block_height)
 
         # Check for collisions with either block
         if ball_rect.colliderect(block1_rect) or ball_rect.colliderect(block2_rect):
