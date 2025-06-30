@@ -32,7 +32,7 @@ ballradius = 10
 # BLOCKS - Static Obstacles
 block_width = 10
 block_height = 100
-block_gap = 150
+block_gap = 200
 block_x = width // 2 - block_width // 2  # center horizontally
 block1_y = -(block_height*4)  # Start above the screen
 block2_y = -block_height  # Start below the screen
@@ -118,7 +118,7 @@ while gamerun:
     ballx += ballvelocity_x
     bally += ballvelocity_y
 
-    if abs(ballvelocity_x) > 25 or abs(ballvelocity_y) > 25:
+    if abs(ballvelocity_x) > 18 or abs(ballvelocity_y) > 18:
             block_active = True
     else:
             block_active=False
@@ -165,17 +165,26 @@ while gamerun:
         pygame.draw.rect(screen, (200, 0, 0), (block_x, block1_y, block_width, block_height))
         pygame.draw.rect(screen, (0, 0, 200), (block_x, block2_y, block_width, block_height))
 
-    #Trigger Obstacle Movement
+    # Trigger Obstacle Movement
     if block_active:
-        if block1_y + block_speed < 130:
-            block1_y += block_speed
-        else:
-            block1_y = 130  # Snap to exact target
+        block1_y += block_speed
 
-        if block2_y + block_speed < 400:
-            block2_y += block_speed
-        else:
-            block2_y = 400  # Snap to exact target
+        # Reset when both blocks have fully exited screen bottom
+        if block1_y > height:
+            block1_y = - (block_height + block_gap)  # Reset well above screen
+
+        # Maintain consistent spacing for block2
+        block2_y = block1_y + block_height + block_gap
+    else:
+        # Reset both off-screen
+        block1_y = -(block_height * 4)
+        block2_y = -(block_height+100)
+
+
+        '''if block1_y == height:
+            block1_y = -(block_height*4)  #Reset Position to OFF Screen
+        if block2_y == height:
+            block2_y = -block_height  #Reset Position to OFF Screen'''
 
     if block_active:
         ball_rect = pygame.Rect(ballx - ballradius, bally - ballradius, ballradius * 2, ballradius * 2)
