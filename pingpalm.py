@@ -180,12 +180,6 @@ while gamerun:
         block1_y = -(block_height * 4)
         block2_y = -(block_height+100)
 
-
-        '''if block1_y == height:
-            block1_y = -(block_height*4)  #Reset Position to OFF Screen
-        if block2_y == height:
-            block2_y = -block_height  #Reset Position to OFF Screen'''
-
     if block_active:
         ball_rect = pygame.Rect(ballx - ballradius, bally - ballradius, ballradius * 2, ballradius * 2)
         block1_rect = pygame.Rect(block_x-30, block1_y, block_width+(2*30), block_height)
