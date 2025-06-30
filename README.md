@@ -1,28 +1,28 @@
-PingPalm
-PingPalm is an interactive, hand-tracking multiplayer Pong game that transforms your palms into game controllers. Built using OpenCV, MediaPipe, and Pygame, the game replaces traditional controls with real-time hand gestures captured via webcam, delivering a modern, immersive twist to the classic arcade experience.
+# PingPalm
 
-"Because your palm deserves to play too."
+**PingPalm** is an interactive, hand-tracking multiplayer Pong game that transforms your palms into game controllers. Built using **OpenCV**, **MediaPipe**, and **Pygame**, the game replaces traditional controls with real-time hand gestures captured via webcam, delivering a modern, immersive twist to the classic arcade experience.
 
-🎮 Features
-🖐️ Gesture-Based Control: Move paddles using your index fingers—no mouse or keyboard needed
+> *"Because your palm deserves to play too."*
 
-🎯 Real-Time Hand Tracking powered by MediaPipe
+---
 
-⚽ Obstacle Mechanics: Speed-triggered center-blocks increase challenge mid-game
+## 🎮 Features
 
-🧠 Dynamic Physics & Collision using Pygame Rects
+* 🖐️ **Gesture-Based Control**: Move paddles using your index fingers—no mouse or keyboard needed
+* 🎯 **Real-Time Hand Tracking** powered by **MediaPipe**
+* ⚽ **Obstacle Mechanics**: Speed-triggered center-blocks increase challenge mid-game
+* 🧠 **Dynamic Physics & Collision** using **Pygame Rects**
+* 🌈 **Ball Color Feedback**: Ball changes color based on court side
+* 🎥 **Live Webcam Feed**: Displayed in-game for real-time gesture feedback
+* 🧮 **Score Tracking** with auto-reset after each point
+* ⏱️ **Round Countdown** before every serve to prepare players
+* 🛑 **Game Over Screen** with Restart and Quit options
+* 🔁 **Smooth Restart Flow** without exiting the game
 
-🌈 Ball Color Feedback: Ball changes color based on court side
+---
 
-🎥 Live Webcam Feed: Displayed in-game for real-time gesture feedback
+Let me know if you’d like to add a **single-player mode**, **AI opponent**, or **difficulty levels** section too!
 
-🧮 Score Tracking with auto-reset after each point
-
-⏱️ Round Countdown before every serve to prepare players
-
-🛑 Game Over Screen with Restart and Quit options
-
-🔁 Smooth Restart Flow without exiting the game
 
 ---
 
