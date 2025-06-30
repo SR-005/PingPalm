@@ -1,22 +1,28 @@
-# PingPalm
+PingPalm
+PingPalm is an interactive, hand-tracking multiplayer Pong game that transforms your palms into game controllers. Built using OpenCV, MediaPipe, and Pygame, the game replaces traditional controls with real-time hand gestures captured via webcam, delivering a modern, immersive twist to the classic arcade experience.
 
-**PingPalm** is a creative hand-tracking multiplayer Pong game built using **OpenCV**, **MediaPipe**, and **Pygame**. Instead of using traditional keyboard controls, players control their paddles in real-time using hand gestures captured through their webcam. This brings a fresh, interactive, and modern twist to the classic Pong experience.
+"Because your palm deserves to play too."
 
-> "Because your palm deserves to play too."
+🎮 Features
+🖐️ Gesture-Based Control: Move paddles using your index fingers—no mouse or keyboard needed
 
----
+🎯 Real-Time Hand Tracking powered by MediaPipe
 
-## 🎮 Features
+⚽ Obstacle Mechanics: Speed-triggered center-blocks increase challenge mid-game
 
-* Play Pong with your bare hands using webcam-based tracking
-* Real-time hand tracking powered by **MediaPipe**
-* Smooth collision detection and physics using **Pygame Rects**
-* Paddle control using index finger positions
-* Dynamic ball color based on screen side
-* Score tracking with endgame conditions
-* Countdown before each round
-* Game Over screen with restart and quit options
-* Live camera feed displayed at bottom center for added immersion
+🧠 Dynamic Physics & Collision using Pygame Rects
+
+🌈 Ball Color Feedback: Ball changes color based on court side
+
+🎥 Live Webcam Feed: Displayed in-game for real-time gesture feedback
+
+🧮 Score Tracking with auto-reset after each point
+
+⏱️ Round Countdown before every serve to prepare players
+
+🛑 Game Over Screen with Restart and Quit options
+
+🔁 Smooth Restart Flow without exiting the game
 
 ---
 
@@ -30,10 +36,10 @@
 ---
 
 ## 🖼️ Screenshots
-![Screenshot 2025-06-30 000853](https://github.com/user-attachments/assets/0448bf3b-eedd-412d-8497-ff9d22f3303d)
-![Screenshot 2025-06-30 001232](https://github.com/user-attachments/assets/773a13e9-b0c5-4f7c-965c-7ce1f724bf5e)
-![Screenshot 2025-06-30 001242](https://github.com/user-attachments/assets/03585630-0959-412a-85c1-747f287492cd)
-
+![Screenshot 2025-06-30 220410](https://github.com/user-attachments/assets/fe0d9179-ec82-4d6a-940e-de0a0ff4198c)
+![Screenshot 2025-06-30 220529](https://github.com/user-attachments/assets/54193b7d-24e7-4101-9e0e-9ae9900ba1c4)
+![Screenshot 2025-06-30 220831](https://github.com/user-attachments/assets/0e11efe7-283c-4d35-8532-754133fa27b7)
+![Screenshot 2025-06-30 220539](https://github.com/user-attachments/assets/58aea0d4-bb49-45e2-9165-d7e029582c88)
 
 ---
 
@@ -72,7 +78,7 @@ pingpalm/
 
 ### 3. Run the Game
 
-*[Download](https://drive.google.com/file/d/1GyBvsdgNBtoMZ_nXj8_VMn_BIg_MJteC/view?usp=sharing) the .RAR file, extract it and run the .exe file
+*[Download](https://drive.google.com/file/d/1ECw4wyPJR6kC-1io9MlHVXY6RDaKEnMt/view?usp=sharing) the .RAR file, extract it and run the .exe file
 
 
 ---
