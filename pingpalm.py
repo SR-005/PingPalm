@@ -152,6 +152,17 @@ while gamerun:
         if abs(ballvelocity_x) > 20 or abs(ballvelocity_y) > 20:
             block_active = True
 
+    #Build the obstacle if the BlockActive gets Triggered
+    if block_active:
+        block1_rect = pygame.Rect(block1_x, block_y, block_width, block_height)
+        block2_rect = pygame.Rect(block2_x, block_y, block_width, block_height)
+        pygame.draw.rect(screen, block_color, block1_rect)
+        pygame.draw.rect(screen, block_color, block2_rect)
+
+    #Trigger Obstacle Movement
+    if block_active and block_y < 200:
+        block_y += block_speed
+
     # SCORE LOGIC
     if ballx < 0:
         right_score += 1
